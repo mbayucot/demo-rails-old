@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12
+    container_name: demo_postgres
+    env_file: .env.local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5.0
+    container_name: demo_redis
+    command: redis-server
+    volumes:
+      - redis:/var/lib/redis/data
+
+  #memcached:
+  #  image: memcached:1.6
+  #  container_name: demo_memcached
+  #  ports:
+  #    - '11211:11211'
+
+  web:
+    build: .
+    container_name: demo_api
+    command: bash -c "rm -f tmp/pids/server.pid && /usr/bin/supervisord -n"
+    env_file: .env.local
+    ports:
+      - "4000:3000"
+    volumes:
+      - .:/api
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres:
+  redis:
