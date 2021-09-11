@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y --fix-missing \
   vim \
   bash-completion\
   wget \
-  lsb-release
+  lsb-release \
+  libvips
 
 ENV INSTALL_PATH /api
 RUN mkdir -p $INSTALL_PATH
