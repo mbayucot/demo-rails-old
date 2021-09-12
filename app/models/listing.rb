@@ -1,6 +1,8 @@
 class Listing < ApplicationRecord
   include AASM
+
   acts_as_taggable_on :tags
+  acts_as_votable
 
   enum state: {
     draft: 0,
