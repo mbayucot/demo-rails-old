@@ -53,11 +53,20 @@ gem 'flipper-active_record', '~> 0.22.1'
 # Tagging
 gem 'acts-as-taggable-on', '~> 8.1.0'
 
-# Nested set
-gem 'awesome_nested_set', '~> 3.4.0'
+# Tree
+gem 'ancestry', '~> 4.1.0'
+
+# Currency conversion
+gem 'money', '~> 6.16.0'
+
+# Import
+#gem 'activerecord-import', '~> 0.15.0'
 
 # Elasticsearch
 gem 'searchkick', '~> 4.6.0'
+
+# State machines
+gem 'aasm', '~> 5.2.0'
 
 # Error reporting
 gem "sentry-ruby"
@@ -72,6 +81,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
+# Swagger
+gem 'rswag-api', '~> 2.4.0 '
+gem 'rswag-ui', '~> 2.4.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -79,6 +92,7 @@ group :development, :test do
   gem 'pry-rails'
 
   gem 'rspec-rails'
+  gem 'rswag-specs'
   gem 'rubocop', '~> 0.93.1', require: false
   gem 'faker'
 end

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  enum role: [:customer, :staff, :admin]
+  enum role: { customer: 0, staff: 1, admin: 2 }
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, :timeoutable, :trackable,
-         :omniauthable, :jwt_authenticatable,
+         :jwt_authenticatable,
          jwt_revocation_strategy: JwtDenylist
+         #:omniauthable, :confirmable, :lockable, :timeoutable, :trackable,
 end
