@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :v1 do
     resources :listings
-    resources :categories
+    resources :categories, only: [:index]
   end
 
   post "/graphql", to: "graphql#execute"
