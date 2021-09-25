@@ -24,7 +24,7 @@ gem 'pretender', '~> 0.3.4'
 gem 'pundit', '~> 2.1.0'
 
 # Pagination
-gem 'will_paginate', '~> 3.3.0'
+gem 'kaminari', '~> 1.2.1'
 
 # Payment
 gem 'stripe', '~> 5.38.0'
@@ -37,6 +37,7 @@ gem 'acts_as_votable', '~> 0.13.1'
 
 # GraphQL
 gem 'graphql', '~> 1.12.14'
+gem 'graphql-pagination', '~> 1.2.0'
 
 # Background processing
 gem 'sidekiq', '~> 6.0.5'
@@ -81,10 +82,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
-# Swagger
-gem 'rswag-api', '~> 2.4.0 '
-gem 'rswag-ui', '~> 2.4.0'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -92,7 +89,6 @@ group :development, :test do
   gem 'pry-rails'
 
   gem 'rspec-rails'
-  gem 'rswag-specs'
   gem 'rubocop', '~> 0.93.1', require: false
   gem 'faker'
 end
@@ -112,6 +108,7 @@ group :test do
   gem 'rubocop-rspec', '~> 1.44.0', require: false
   gem 'shoulda-matchers', '~> 4.4.1'
   gem 'shoulda-callback-matchers', '~> 1.1.4'
+  gem 'rspec-graphql_matchers'
   gem 'simplecov', require: false
   gem 'fuubar'
 end
