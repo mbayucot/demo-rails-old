@@ -15,9 +15,6 @@ gem 'redis', '~> 4.0'
 # Authentication
 gem 'devise', '~> 4.8.0'
 gem 'devise-jwt', '~> 0.8.1'
-gem 'omniauth', '~> 2.0.4'
-gem 'omniauth-facebook', '~> 8.0.0'
-gem 'omniauth-google-oauth2', '~> 1.0.0'
 gem 'pretender', '~> 0.3.4'
 
 # Authorization

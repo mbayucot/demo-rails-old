@@ -1,7 +1,7 @@
 module Mutations
   class CreateComment < BaseMutation
     field :comment, Types::CommentType, null: false
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserErrorType], null: false
 
     argument :article_id, ID, required: true
     argument :body, String, required: true

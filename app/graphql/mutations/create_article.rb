@@ -1,7 +1,7 @@
 module Mutations
   class CreateArticle < BaseMutation
     field :article, Types::ArticleType, null: false
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserErrorType], null: false
 
     argument :title, String, required: true
     argument :body, String, required: true
