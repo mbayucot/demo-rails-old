@@ -1,6 +1,6 @@
 module Mutations
   class UpdateArticle < BaseMutation
-    field :post, Types::ArticleType, null: false
+    field :article, Types::ArticleType, null: false
 
     argument :id, ID, required: true
     argument :attributes, Types::ArticleAttributes, required: true

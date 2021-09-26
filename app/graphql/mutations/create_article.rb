@@ -1,7 +1,7 @@
 module Mutations
   class CreateArticle < BaseMutation
     field :article, Types::ArticleType, null: false
-    field :errors, [String], null: false
+    field :errors, [Types::UserError], null: false
 
     argument :title, String, required: true
     argument :body, String, required: true
@@ -14,9 +14,16 @@ module Mutations
           errors: [],
         }
       else
+        user_errors = article.errors.map do |attribute, message|
+          path = ["attributes", attribute.to_s.camelize(:lower)]
+          {
+            path: path,
+            message: message,
+          }
+        end
         {
-          article: nil,
-          errors: article.errors.full_messages
+          article: article,
+          errors: user_errors
         }
       end
     end

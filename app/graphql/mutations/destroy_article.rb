@@ -1,6 +1,6 @@
 module Mutations
   class DestroyArticle < BaseMutation
-    field :id, ID, null: true
+    field :article, Types::ArticleType, null: false
 
     argument :id, ID, required: true
 
@@ -8,7 +8,7 @@ module Mutations
       article = Article.find(id)
       article.destroy
       {
-        id: id,
+        article: article,
       }
     end
   end
