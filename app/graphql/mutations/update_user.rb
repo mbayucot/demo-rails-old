@@ -3,7 +3,7 @@ module Mutations
     field :user, Types::UserType, null: false
 
     argument :id, ID, required: true
-    argument :attributes, Types::ArticleAttributes, required: true
+    argument :attributes, Types::UserAttributes, required: true
 
     def resolve(id:, attributes:)
       user = User.find(id)

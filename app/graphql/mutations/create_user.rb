@@ -8,7 +8,7 @@ module Mutations
     argument :last_name, String, required: true
     argument :password, String, required: true
 
-    def resolve(email:, first_name:, last_name:)
+    def resolve(email:, first_name:, last_name:, password:)
       user = User.new(email: email, first_name: first_name, last_name: last_name, password: password)
       if user.save
         {

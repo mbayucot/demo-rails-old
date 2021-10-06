@@ -14,6 +14,14 @@ module Types
       argument :limit, Integer, required: false
     end
 
+    field :user, UserType, null: false do
+      argument :id, ID, required: true, as: :id
+    end
+
+    def user(id:)
+      User.find(id)
+    end
+
     def articles(page: nil, limit: nil)
       ::Article.page(page).per(limit)
     end
