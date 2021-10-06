@@ -34,7 +34,9 @@ gem 'acts_as_votable', '~> 0.13.1'
 
 # GraphQL
 gem 'graphql', '~> 1.12.14'
+gem 'graphiql-rails', '~> 1.8.0'
 gem 'graphql-pagination', '~> 1.2.0'
+gem 'sass-rails'
 
 # Background processing
 gem 'sidekiq', '~> 6.0.5'

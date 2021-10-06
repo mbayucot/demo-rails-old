@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  enum role: { customer: 0, staff: 1, admin: 2 }
+  enum role: { author: 0, editor: 1, administrator: 2 }
 
   has_many :listings
 
