@@ -7,6 +7,7 @@ module Types
     field :articles, Types::ArticleType.collection_type, null: true do
       argument :page, Integer, required: false
       argument :query, String, required: false
+      argument :sort, String, required: false
     end
 
     field :article, ArticleType, null: false do
@@ -30,8 +31,8 @@ module Types
       User.find(id)
     end
 
-    def articles(page: nil, query: nil)
-      ::Article.where("title ILIKE ?", "%#{query}%").page(page)
+    def articles(page: nil, query: nil, sort: nil)
+      ::Article.where("title ILIKE ?", "%#{query}%").page(page).order(created_at: sort)
     end
 
     def users(page: nil, query: nil)
