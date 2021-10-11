@@ -1,5 +1,13 @@
 module Mutations
   class UpdateArticle < BaseMutation
+    def ready?(**_args)
+      if !context[:current_user]
+        raise GraphQL::ExecutionError, "You need to login!"
+      else
+        true
+      end
+    end
+
     field :article, Types::ArticleType, null: false
 
     argument :id, ID, required: true
