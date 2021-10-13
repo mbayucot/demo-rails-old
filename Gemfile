@@ -42,10 +42,6 @@ gem 'sass-rails'
 gem 'sidekiq', '~> 6.0.5'
 gem 'sidekiq-scheduler', '~> 3.0.1'
 
-# Analytics
-gem 'ahoy_matey', '~> 3.2.0'
-gem 'groupdate', '~> 5.2.2'
-
 # Feature flags
 gem 'flipper', '~> 0.22.0'
 gem 'flipper-active_record', '~> 0.22.1'
@@ -90,6 +86,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop', '~> 0.93.1', require: false
   gem 'faker'
+  gem 'graphql-schema_comparator'
 end
 
 group :development do
@@ -110,6 +107,7 @@ group :test do
   gem 'rspec-graphql_matchers'
   gem 'simplecov', require: false
   gem 'fuubar'
+  gem 'stripe-ruby-mock', '~> 3.0.1', :require => 'stripe_mock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

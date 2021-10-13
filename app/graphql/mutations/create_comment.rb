@@ -17,7 +17,7 @@ module Mutations
     def resolve(article_id:, body:)
       article = Article.find(article_id)
 
-      comment = context[:current_user].comments.new(article: article, body: body)
+      comment = article.comments.new(article: article, body: body)
       if comment.save
         {
           comment: comment,

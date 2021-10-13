@@ -1,9 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it do
-    expect(subject).to define_enum_for(:role).with_values(
-      customer: 0, staff: 1, admin: 2
-    )
+  describe 'associations' do
+    it do
+      expect(subject).to have_many(:articles).with_foreign_key('author_id')
+                                             .dependent(:destroy)
+    end
+    it do
+      expect(subject).to have_many(:comments).with_foreign_key('author_id')
+                                             .dependent(:destroy)
+    end
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:first_name) }
+    it { is_expected.to validate_presence_of(:last_name) }
   end
 end
