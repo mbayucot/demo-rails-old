@@ -16,6 +16,7 @@ module Mutations
     def resolve(id:, weight:)
       article = Article.find(id)
       article.liked_by context[:current_user], vote_weight: weight
+      #article.unliked_by current_user
       { article: article }
     end
   end

@@ -58,8 +58,8 @@ gem 'money', '~> 6.16.0'
 # Import
 #gem 'activerecord-import', '~> 0.15.0'
 
-# Elasticsearch
-gem 'searchkick', '~> 4.6.0'
+# PostgreSQL's full text search
+gem 'pg_search', '~> 2.3.5'
 
 # State machines
 gem 'aasm', '~> 5.2.0'

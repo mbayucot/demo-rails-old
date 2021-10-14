@@ -23,6 +23,10 @@ module Types
       argument :id, ID, required: true, as: :id
     end
 
+    field :tags, [Types::TagType], null: true do
+      argument :query, String, required: false
+    end
+
     def article(id:)
       Article.find(id)
     end
@@ -37,6 +41,10 @@ module Types
 
     def users(page: nil, query: nil)
       ::User.where("first_name ILIKE ?", "%#{query}%").page(page)
+    end
+
+    def tags(query: nil)
+      ::ActsAsTaggableOn::Tag.all
     end
   end
 end
