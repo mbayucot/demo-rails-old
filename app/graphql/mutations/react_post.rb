@@ -1,5 +1,5 @@
 module Mutations
-  class ReactArticle < BaseMutation
+  class ReactPost < BaseMutation
     def ready?(**_args)
       if !context[:current_user]
         raise GraphQL::ExecutionError, "You need to login!"
@@ -8,16 +8,16 @@ module Mutations
       end
     end
 
-    field :article, Types::ArticleType, null: false
+    field :post, Types::PostType, null: false
 
     argument :id, ID, required: true
     argument :weight, Int, required: true
 
     def resolve(id:, weight:)
-      article = Article.find(id)
-      article.liked_by context[:current_user], vote_weight: weight
-      #article.unliked_by current_user
-      { article: article }
+      post = Post.find(id)
+      Post.liked_by context[:current_user], vote_weight: weight
+      #Post.unliked_by current_user
+      { post: post }
     end
   end
 end

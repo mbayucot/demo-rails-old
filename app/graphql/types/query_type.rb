@@ -4,13 +4,13 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
-    field :articles, Types::ArticleType.collection_type, null: true do
+    field :posts, Types::PostType.collection_type, null: true do
       argument :page, Integer, required: false
       argument :query, String, required: false
       argument :sort, String, required: false
     end
 
-    field :article, ArticleType, null: false do
+    field :post, PostType, null: false do
       argument :id, ID, required: true, as: :id
     end
 
@@ -27,16 +27,16 @@ module Types
       argument :query, String, required: false
     end
 
-    def article(id:)
-      Article.find(id)
+    def post(id:)
+      Post.find(id)
     end
 
     def user(id:)
       User.find(id)
     end
 
-    def articles(page: nil, query: nil, sort: nil)
-      ::Article.where("title ILIKE ?", "%#{query}%").page(page).order(created_at: sort)
+    def posts(page: nil, query: nil, sort: nil)
+      ::Post.where("title ILIKE ?", "%#{query}%").page(page).order(created_at: sort)
     end
 
     def users(page: nil, query: nil)
@@ -44,7 +44,7 @@ module Types
     end
 
     def tags(query: nil)
-      ::Article.tagged_with(query, wild: true, any: true)
+      ::Post.tagged_with(query, wild: true, any: true)
     end
   end
 end

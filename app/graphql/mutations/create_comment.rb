@@ -11,13 +11,13 @@ module Mutations
     field :comment, Types::CommentType, null: false
     field :errors, [Types::UserErrorType], null: false
 
-    argument :article_id, ID, required: true
+    argument :post_id, ID, required: true
     argument :body, String, required: true
     argument :parent_id, ID, required: false
 
-    def resolve(article_id:, body:, parent_id:)
-      article = Article.find(article_id)
-      comment = article.comments.new(body: body, parent_id: parent_id)
+    def resolve(post_id:, body:, parent_id:)
+      post = Post.find(post_id)
+      comment = Post.comments.new(body: body, parent_id: parent_id)
       comment.author = context[:current_user]
       if comment.save
         {

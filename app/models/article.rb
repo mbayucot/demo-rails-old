@@ -1,4 +1,4 @@
-class Article < ApplicationRecord
+class Post < ApplicationRecord
   include AASM
   acts_as_votable
 

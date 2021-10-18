@@ -1,5 +1,5 @@
 module Mutations
-  class CreateArticle < BaseMutation
+  class CreatePost < BaseMutation
     def ready?(**_args)
       if !context[:current_user]
         raise GraphQL::ExecutionError, "You need to login!"
@@ -8,7 +8,7 @@ module Mutations
       end
     end
 
-    field :article, Types::ArticleType, null: false
+    field :post, Types::PostType, null: false
     field :errors, [Types::UserErrorType], null: false
 
     argument :title, String, required: true
@@ -16,14 +16,14 @@ module Mutations
     argument :tagList, [String], required: true
 
     def resolve(title:, body:, tagList:)
-      article = context[:current_user].articles.new(title: title, body: body, tag_list: tagList)
-      if article.save
+      post = context[:current_user].posts.new(title: title, body: body, tag_list: tagList)
+      if Post.save
         {
-          article: article,
+          post: post,
           errors: [],
         }
       else
-        user_errors = article.errors.map do |attribute, message|
+        user_errors = Post.errors.map do |attribute, message|
           path = ["attributes", attribute.to_s.camelize(:lower)]
           {
             path: path,
@@ -31,7 +31,7 @@ module Mutations
           }
         end
         {
-          article: article,
+          post: post,
           errors: user_errors
         }
       end

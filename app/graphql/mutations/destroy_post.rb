@@ -1,5 +1,5 @@
 module Mutations
-  class DestroyArticle < BaseMutation
+  class DestroyPost < BaseMutation
     def ready?(**_args)
       if !context[:current_user]
         raise GraphQL::ExecutionError, "You need to login!"
@@ -8,15 +8,15 @@ module Mutations
       end
     end
 
-    field :article, Types::ArticleType, null: false
+    field :post, Types::PostType, null: false
 
     argument :id, ID, required: true
 
     def resolve(id:)
-      article = Article.find(id)
-      article.destroy
+      post = Post.find(id)
+      Post.destroy
       {
-        article: article,
+        post: post,
       }
     end
   end
