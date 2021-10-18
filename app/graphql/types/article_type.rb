@@ -9,5 +9,7 @@ module Types
     field :slug, String, null: true
     field :title, String, null: true
     field :body, String, null: true
+    field :tags, [TagType], null: true
+    field :tag_list, [String], null: true
   end
 end

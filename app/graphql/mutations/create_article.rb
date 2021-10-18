@@ -13,10 +13,10 @@ module Mutations
 
     argument :title, String, required: true
     argument :body, String, required: true
-    argument :tag_list, [String], required: true
+    argument :tagList, [String], required: true
 
-    def resolve(title:, body:, tag_list:)
-      article = context[:current_user].articles.new(title: title, body: body, tag_list: tag_list)
+    def resolve(title:, body:, tagList:)
+      article = context[:current_user].articles.new(title: title, body: body, tag_list: tagList)
       if article.save
         {
           article: article,

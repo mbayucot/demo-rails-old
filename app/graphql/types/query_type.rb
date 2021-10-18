@@ -44,7 +44,7 @@ module Types
     end
 
     def tags(query: nil)
-      ::ActsAsTaggableOn::Tag.all
+      ::Article.tagged_with(query, wild: true, any: true)
     end
   end
 end
