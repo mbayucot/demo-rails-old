@@ -11,5 +11,6 @@ module Types
     field :body, String, null: true
     field :tags, [TagType], null: true
     field :tag_list, [String], null: true
+    field :user, Types::UserType, null: true
   end
 end

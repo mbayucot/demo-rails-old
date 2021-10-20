@@ -14,7 +14,7 @@ module Mutations
 
     def resolve(id:)
       post = Post.find(id)
-      Post.destroy
+      post.destroy
       {
         post: post,
       }

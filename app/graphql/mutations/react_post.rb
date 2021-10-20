@@ -15,7 +15,7 @@ module Mutations
 
     def resolve(id:, weight:)
       post = Post.find(id)
-      Post.liked_by context[:current_user], vote_weight: weight
+      post.liked_by context[:current_user], vote_weight: weight
       #Post.unliked_by current_user
       { post: post }
     end

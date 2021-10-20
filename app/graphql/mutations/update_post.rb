@@ -16,10 +16,10 @@ module Mutations
     def resolve(id:, attributes:)
       post = Post.find(id)
       # Add logic for authorization
-      if Post.user != context[:current_user]
+      if post.user != context[:current_user]
         raise GraphQL::ExecutionError, "You are not authorized!"
       end
-      if Post.update(attributes.to_h)
+      if post.update(attributes.to_h)
         { post: post }
       else
         raise GraphQL::ExecutionError, Post.errors.full_messages.join(", ")

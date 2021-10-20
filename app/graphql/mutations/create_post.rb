@@ -17,13 +17,13 @@ module Mutations
 
     def resolve(title:, body:, tagList:)
       post = context[:current_user].posts.new(title: title, body: body, tag_list: tagList)
-      if Post.save
+      if post.save
         {
           post: post,
           errors: [],
         }
       else
-        user_errors = Post.errors.map do |attribute, message|
+        user_errors = post.errors.map do |attribute, message|
           path = ["attributes", attribute.to_s.camelize(:lower)]
           {
             path: path,

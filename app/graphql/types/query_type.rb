@@ -35,7 +35,7 @@ module Types
       User.find(id)
     end
 
-    def posts(page: nil, query: nil, sort: nil)
+    def posts(page: nil, query: nil, sort: 'asc')
       ::Post.where("title ILIKE ?", "%#{query}%").page(page).order(created_at: sort)
     end
 
