@@ -17,8 +17,8 @@ module Mutations
 
     def resolve(post_id:, body:, parent_id:)
       post = Post.find(post_id)
-      comment = Post.comments.new(body: body, parent_id: parent_id)
-      comment.author = context[:current_user]
+      comment = post.comments.new(body: body, parent_id: parent_id)
+      comment.user = context[:current_user]
       if comment.save
         {
           comment: comment,

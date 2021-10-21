@@ -5,6 +5,4 @@ class Comment < ApplicationRecord
   validates :body, presence: true
 
   has_ancestry
-
-  acts_as_votable
 end

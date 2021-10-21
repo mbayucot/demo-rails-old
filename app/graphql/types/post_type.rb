@@ -12,5 +12,6 @@ module Types
     field :tags, [TagType], null: true
     field :tag_list, [String], null: true
     field :user, Types::UserType, null: true
+    field :comments, [Types::CommentType], null: true
   end
 end
