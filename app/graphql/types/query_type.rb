@@ -8,6 +8,7 @@ module Types
       argument :page, Integer, required: false
       argument :query, String, required: false
       argument :sort, String, required: false
+      argument :tag, String, required: false
     end
 
     field :post, PostType, null: false do
@@ -38,8 +39,14 @@ module Types
       User.find(id)
     end
 
-    def posts(page: nil, query: nil, sort: 'asc')
-      ::Post.where("title ILIKE ?", "%#{query}%").page(page).order(created_at: sort)
+    def posts(page: nil, query: nil, sort: 'asc', tag: nil)
+      if query.present?
+        ::Post.search(query).page(page).order(updated_at: sort)
+      elsif tag.present?
+        ::Post.tagged_with(tag)
+      else
+        ::Post.page(page).order(updated_at: sort)
+      end
     end
 
     def users(page: nil, query: nil)

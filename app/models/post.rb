@@ -9,6 +9,8 @@ class Post < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
 
+  scope :ordered, -> { order(updated_at: :desc) }
+
   acts_as_taggable_on :tags
 
   extend FriendlyId
@@ -22,4 +24,12 @@ class Post < ApplicationRecord
       transitions from: :draft, to: :published
     end
   end
+
+  multisearchable against: %i[title body tags]
+  pg_search_scope :search,
+                  against: %i[title body],
+                  associated_against: {
+                    user: %i[first_name last_name], tags: %i[name]
+                  },
+                  using: { tsearch: { prefix: true } }
 end
