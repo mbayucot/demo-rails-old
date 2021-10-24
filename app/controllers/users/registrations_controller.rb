@@ -2,6 +2,13 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
+
+  private
+
+  def sign_up_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name)
+  end
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 

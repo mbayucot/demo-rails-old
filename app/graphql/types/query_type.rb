@@ -27,8 +27,11 @@ module Types
       argument :query, String, required: false
     end
 
+    field :plans, [Types::PlanType], null: true do
+    end
+
     def post(id:)
-      Post.find(id)
+      Post.friendly.find(id)
     end
 
     def user(id:)
@@ -45,6 +48,11 @@ module Types
 
     def tags(query: nil)
       ::Post.tagged_with(query, wild: true, any: true)
+    end
+
+    def plans
+      Stripe::Product.list({ active: true }).data
+      Stripe::Plan.list({ active: true }).data
     end
   end
 end

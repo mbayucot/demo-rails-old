@@ -1,5 +1,6 @@
 module Types
   class MutationType < Types::BaseObject
+    field :create_subscription, mutation: Mutations::CreateSubscription
     field :react_post, mutation: Mutations::ReactPost
     field :destroy_user, mutation: Mutations::DestroyUser
     field :update_user, mutation: Mutations::UpdateUser

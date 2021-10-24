@@ -25,6 +25,10 @@ gem 'kaminari', '~> 1.2.1'
 
 # Payment
 gem 'stripe', '~> 5.38.0'
+gem 'stripe_event', '~> 2.3.1'
+
+# Interactor
+gem 'interactor', '~> 3.1.2'
 
 # Slugging
 gem 'friendly_id', '~> 5.4.2'
