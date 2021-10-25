@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  enum role: { author: 0, editor: 1, administrator: 2 }
+  enum role: { author: 1, editor: 2, admin: 3 }
 
   has_many :posts
   has_many :subscriptions

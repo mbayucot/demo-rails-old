@@ -42,6 +42,9 @@ gem 'graphiql-rails', '~> 1.8.0'
 gem 'graphql-pagination', '~> 1.2.0'
 gem 'sass-rails'
 
+# Generate JSON in a convention-driven manner
+gem 'active_model_serializers', '0.10.12'
+
 # Background processing
 gem 'sidekiq', '~> 6.0.5'
 gem 'sidekiq-scheduler', '~> 3.0.1'
