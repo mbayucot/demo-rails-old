@@ -1,5 +1,7 @@
 class Post < ApplicationRecord
   include AASM
+  include PgSearch::Model
+
   acts_as_votable
 
   belongs_to :user
