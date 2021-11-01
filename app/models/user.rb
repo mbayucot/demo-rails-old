@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   enum role: { author: 1, editor: 2, admin: 3 }
 
-  has_many :posts
-  has_many :subscriptions
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   after_initialize :set_default_role, :if => :new_record?
   after_create :set_stripe_customer_id

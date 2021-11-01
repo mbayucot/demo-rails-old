@@ -14,6 +14,7 @@ module Mutations
 
     def resolve(id:)
       user = User.find(id)
+      Pundit.authorize context[:current_user], user, :destroy?
       user.destroy
       {
         user: user,

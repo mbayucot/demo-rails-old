@@ -18,6 +18,7 @@ module Mutations
 
     def resolve(email:, first_name:, last_name:, password:)
       user = User.new(email: email, first_name: first_name, last_name: last_name, password: password)
+      Pundit.authorize context[:current_user], user, :create?
       if user.save
         {
           user: user,

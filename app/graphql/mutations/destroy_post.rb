@@ -14,6 +14,7 @@ module Mutations
 
     def resolve(id:)
       post = Post.find(id)
+      Pundit.authorize context[:current_user], post, :destroy?
       post.destroy
       {
         post: post,

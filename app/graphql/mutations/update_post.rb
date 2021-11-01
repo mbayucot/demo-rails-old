@@ -15,10 +15,7 @@ module Mutations
 
     def resolve(id:, attributes:)
       post = Post.find(id)
-      # Add logic for authorization
-      if post.user != context[:current_user]
-        raise GraphQL::ExecutionError, "You are not authorized!"
-      end
+      Pundit.authorize context[:current_user], post, :update?
       if post.update(attributes.to_h)
         { post: post }
       else

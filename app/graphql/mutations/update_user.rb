@@ -15,6 +15,7 @@ module Mutations
 
     def resolve(id:, attributes:)
       user = User.find(id)
+      Pundit.authorize context[:current_user], user, :update?
       if user.update(attributes.to_h)
         { user: user }
       else

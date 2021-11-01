@@ -18,6 +18,7 @@ module Mutations
     def resolve(post_id:, body:, parent_id:)
       post = Post.find(post_id)
       comment = post.comments.new(body: body, parent_id: parent_id)
+      Pundit.authorize context[:current_user], comment, :create?
       comment.user = context[:current_user]
       if comment.save
         {

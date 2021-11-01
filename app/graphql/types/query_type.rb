@@ -32,11 +32,13 @@ module Types
     end
 
     def post(id:)
-      Post.friendly.find(id)
+      post = Pundit.policy_scope!(context[:current_user], Post).find(id)
+      Pundit.authorize context[:current_user], post, :show?
     end
 
     def user(id:)
-      User.find(id)
+      user = Pundit.policy_scope!(context[:current_user], User).find(id)
+      Pundit.authorize context[:current_user], user, :show?
     end
 
     def posts(page: nil, query: nil, sort: 'asc', tag: nil)
@@ -45,16 +47,17 @@ module Types
       elsif tag.present?
         ::Post.tagged_with(tag)
       else
-        ::Post.page(page).order(updated_at: sort)
+        Pundit.policy_scope!(context[:current_user], ::Post).page(page).order(updated_at: sort)
       end
     end
 
     def users(page: nil, query: nil)
-      ::User.where("first_name ILIKE ?", "%#{query}%").page(page)
+      user = Pundit.policy_scope!(context[:current_user], ::User)
+      user.where("first_name ILIKE ?", "%#{query}%").page(page)
     end
 
     def tags(query: nil)
-      ::Post.tagged_with(query, wild: true, any: true)
+      ::ActsAsTaggableOn::Tag.where("name ILIKE ?", "%#{query}%")
     end
 
     def plans

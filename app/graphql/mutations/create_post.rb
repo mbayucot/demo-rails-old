@@ -17,6 +17,7 @@ module Mutations
 
     def resolve(title:, body:, tagList:)
       post = context[:current_user].posts.new(title: title, body: body, tag_list: tagList)
+      Pundit.authorize context[:current_user], post, :create?
       if post.save
         {
           post: post,

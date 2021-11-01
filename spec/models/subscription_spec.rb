@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Article, type: :model do
+RSpec.describe Subscription, type: :model do
   describe 'associations' do
     it do
       expect(subject).to belong_to(:user).class_name('User').with_foreign_key(

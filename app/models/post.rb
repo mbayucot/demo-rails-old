@@ -4,7 +4,7 @@ class Post < ApplicationRecord
 
   acts_as_votable
 
-  belongs_to :user
+  belongs_to :user, class_name: 'User'
 
   has_many :comments, dependent: :destroy
 

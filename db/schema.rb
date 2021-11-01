@@ -101,8 +101,9 @@ ActiveRecord::Schema.define(version: 2021_10_24_122402) do
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "stripe_subscription_id"
-    t.datetime "start_at"
-    t.datetime "end_at"
+    t.boolean "cancel_at_period_end", default: false, null: false
+    t.datetime "current_period_start", null: false
+    t.datetime "current_period_end", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_subscriptions_on_user_id"

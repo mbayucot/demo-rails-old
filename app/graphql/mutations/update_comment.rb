@@ -15,6 +15,7 @@ module Mutations
 
     def resolve(id:, attributes:)
       comment = Comment.find(id)
+      Pundit.authorize context[:current_user], comment, :update?
       if comment.update(attributes.to_h)
         { comment: comment }
       else
