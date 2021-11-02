@@ -10,11 +10,11 @@ module Mutations
 
     field :user, Types::UserType, null: false
 
-    argument :id, ID, required: true
+    argument :id, ID, required: false
     argument :attributes, Types::UserAttributes, required: true
 
-    def resolve(id:, attributes:)
-      user = User.find(id)
+    def resolve(id: nil, attributes:)
+      user = id.present? ? context[:current_user] : User.find(id)
       Pundit.authorize context[:current_user], user, :update?
       if user.update(attributes.to_h)
         { user: user }

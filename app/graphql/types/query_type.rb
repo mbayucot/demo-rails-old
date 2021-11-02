@@ -21,7 +21,7 @@ module Types
     end
 
     field :user, UserType, null: false do
-      argument :id, ID, required: true, as: :id
+      argument :id, ID, required: false, as: :id
     end
 
     field :tags, [Types::TagType], null: true do
@@ -32,12 +32,13 @@ module Types
     end
 
     def post(id:)
-      post = Pundit.policy_scope!(context[:current_user], Post).find(id)
+      post = Pundit.policy_scope!(context[:current_user], Post).friendly.find(id)
       Pundit.authorize context[:current_user], post, :show?
     end
 
-    def user(id:)
-      user = Pundit.policy_scope!(context[:current_user], User).find(id)
+    def user(id: nil)
+      user = id.present? ?
+               Pundit.policy_scope!(context[:current_user], User).find(id) : context[:current_user]
       Pundit.authorize context[:current_user], user, :show?
     end
 

@@ -21,7 +21,7 @@ class UserPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      user.editor? ? scope.where(id: user.id) : scope.all
+      user && user.editor? ? scope.where(id: user.id) : scope.all
     end
   end
 end
