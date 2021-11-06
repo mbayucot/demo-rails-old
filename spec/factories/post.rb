@@ -1,8 +1,8 @@
 FactoryBot.define do
-  factory :article do
+  factory :post do
     title { Faker::Lorem.paragraph }
     body { Faker::Lorem.sentence }
-    author factory: :user
+    user factory: :user
     tag_list { Faker::Lorem.word }
   end
 end
