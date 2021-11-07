@@ -3,6 +3,10 @@ require 'devise/jwt/test_helpers'
 
 RSpec.describe Mutations::CreatePost, type: :graphql do
   let(:user) { create(:user) }
+  let(:context) { { current_user: user } }
+  let(:post) { create(:post, title: "My Cool Thoughts") }
+  let(:valid_attributes) { { title: "My Cool Thoughts", body: 'body', tagList: ['tag'] } }
+  let(:invalid_attributes) { { title: nil, body: nil, tagList: nil } }
 
   let(:mutation) do
     <<~GQL
@@ -17,19 +21,30 @@ RSpec.describe Mutations::CreatePost, type: :graphql do
     GQL
   end
 
-  it 'is successful' do
-    post = create(:post, title: "My Cool Thoughts")
-    context = {
-      # Query context goes here, for example:
-      current_user: user,
-    }
-    post_id = RailsDockerStarterKitSchema.id_from_object(post, Types::PostType, {})
-    result = RailsDockerStarterKitSchema.execute(mutation, variables: { title: "My Cool Thoughts", body: 'body', tagList: ['tag'] }, context: context)
+  context 'with valid parameters' do
+    it 'creates a new Post' do
+      expect do
+        RailsDockerStarterKitSchema.execute(mutation, variables: valid_attributes, context: context)
+      end.to change(Post, :count).by(1)
+    end
 
-    post_result = result["data"]["createPost"]["post"]
+    it 'returns the created Post' do
+      result = RailsDockerStarterKitSchema.execute(mutation, variables: valid_attributes, context: context)
+      post_result = result["data"]["createPost"]["post"]
+      expect(post_result["title"]).to eq(post["title"])
+    end
+  end
 
-    # Make sure the query worked
-    #expect(post_result["id"]).to eq(post_id)
-    expect(post_result["title"]).to eq("My Cool Thoughts")
+  context 'with invalid parameters' do
+    it 'does not create a new Post' do
+      expect do
+        RailsDockerStarterKitSchema.execute(mutation, variables: invalid_attributes, context: context)
+      end.to change(Post, :count).by(0)
+    end
+
+    it 'returns an error message', :aggregate_failures do
+      result = RailsDockerStarterKitSchema.execute(mutation, variables: invalid_attributes, context: context)
+      expect(result["errors"].first["message"]).to eq("Variable $title of type String! was provided invalid value")
+    end
   end
 end
