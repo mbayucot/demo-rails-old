@@ -14,6 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'support/request_helpers'
+require 'support/graphql_helpers'
 require 'rspec/json_expectations'
 require 'pundit/matchers'
 require 'simplecov'
@@ -51,6 +52,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.include Requests::JsonHelpers, type: :request
+  config.include Requests::GraphqlHelpers, type: :request
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.

@@ -3,5 +3,5 @@ class ApplicationController < ActionController::API
   include Pundit
   include ExceptionHandler
 
-  #before_action :authenticate_user!
+  before_action :authenticate_user!
 end
