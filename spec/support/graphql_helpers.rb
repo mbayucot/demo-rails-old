@@ -1,5 +1,9 @@
 module Requests
   module GraphqlHelpers
+    def graphql_url
+      '/graphql'
+    end
+
     # This method launch the graphql request with the `query` and `variables` variables
     # by default. It's convenient when you don't have anything really complicated to test.
     # And when you need to test multiple requests, you can call it with arguments.
