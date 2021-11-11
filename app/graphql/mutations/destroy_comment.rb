@@ -10,7 +10,6 @@ module Mutations
 
     field :comment, Types::CommentType, null: false
 
-    # TODO: define arguments
     argument :id, ID, required: true
 
     def resolve(id:)

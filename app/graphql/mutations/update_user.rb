@@ -9,6 +9,7 @@ module Mutations
     end
 
     field :user, Types::UserType, null: false
+    field :errors, [Types::UserErrorType], null: true
 
     argument :id, ID, required: false
     argument :attributes, Types::UserAttributes, required: true
@@ -19,7 +20,10 @@ module Mutations
       if user.update(attributes.to_h)
         { user: user }
       else
-        raise GraphQL::ExecutionError, user.errors.full_messages.join(", ")
+        {
+          user: user,
+          errors: pretty_errors(user.errors)
+        }
       end
     end
   end

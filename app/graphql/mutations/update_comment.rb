@@ -9,6 +9,7 @@ module Mutations
     end
 
     field :comment, Types::CommentType, null: false
+    field :errors, [Types::UserErrorType], null: true
 
     argument :body, String, required: true
     argument :attributes, Types::CommentAttributes, required: true
@@ -19,7 +20,10 @@ module Mutations
       if comment.update(attributes.to_h)
         { comment: comment }
       else
-        raise GraphQL::ExecutionError, comment.errors.full_messages.join(", ")
+        {
+          user: user,
+          errors: pretty_errors(comment.errors)
+        }
       end
     end
   end

@@ -9,7 +9,7 @@ module Mutations
     end
 
     field :comment, Types::CommentType, null: false
-    field :errors, [Types::UserErrorType], null: false
+    field :errors, [Types::UserErrorType], null: true
 
     argument :post_id, ID, required: true
     argument :body, String, required: true
@@ -27,17 +27,9 @@ module Mutations
           errors: [],
         }
       else
-        user_errors = comment.errors.map do |attribute, message|
-          path = ["attributes", attribute.to_s.camelize(:lower)]
-          {
-            path: path,
-            message: message,
-          }
-        end
-
         {
           comment: comment,
-          errors: user_errors
+          errors: pretty_errors(comment.errors)
         }
       end
     end

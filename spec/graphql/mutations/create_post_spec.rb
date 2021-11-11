@@ -18,6 +18,10 @@ RSpec.describe Mutations::CreatePost, type: :request do
             id
             title
           }
+          errors {
+            path
+            message
+          }
         }
       }
     GQL

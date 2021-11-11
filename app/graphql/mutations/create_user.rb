@@ -9,7 +9,7 @@ module Mutations
     end
 
     field :user, Types::UserType, null: false
-    field :errors, [Types::UserErrorType], null: false
+    field :errors, [Types::UserErrorType], null: true
 
     argument :email, String, required: true
     argument :first_name, String, required: true
@@ -25,16 +25,9 @@ module Mutations
           errors: [],
         }
       else
-        user_errors = user.errors.map do |attribute, message|
-          path = ["attributes", attribute.to_s.camelize(:lower)]
-          {
-            path: path,
-            message: message,
-          }
-        end
         {
           user: user,
-          errors: user_errors
+          errors: pretty_errors(user.errors)
         }
       end
     end
