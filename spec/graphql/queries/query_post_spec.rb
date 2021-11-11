@@ -1,42 +1,47 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
-RSpec.describe Mutations::CreatePost, type: :graphql do
+RSpec.describe Mutations::CreatePost, type: :request do
   let(:user) { create(:user) }
+  let(:record) { create(:post) }
 
-  let!(:projects) { create_list(:project, 15, created_by: user.id) }
-  let(:project) { projects.first }
+  let(:valid_headers) do
+    Devise::JWT::TestHelpers.auth_headers({ Accept: 'application/json' }, user)
+  end
 
   let(:mutation) do
     <<~GQL
-      mutation($input: LoginInput!) {
-        login(input: $input) {
-          success
+      query($id: ID!) {
+        post(id: $id) {
+          id
+          title
+          body
+          slug
+          tags {
+            id
+            name
+          }
+          comments {
+            id
+            body
+            postId
+            ancestry
+            children {
+              id
+              body
+              postId
+              ancestry
+            }
+          }
         }
       }
     GQL
   end
 
-  it 'is successful' do
-    user = create(:user)
-
-    result = execute_graphql(
-      mutation,
-      variables: { input: { email: user.email, password: 'password' } },
-      )
-
-    aggregate_failures do
-      expect(controller.current_user).to eq user
-      expect(result['data']['login']['success']).to eq true
+  context 'with valid parameters' do
+    it 'returns a project' do
+      post graphql_url, params: { query: mutation, variables: { id: record.id} }, headers: valid_headers
+      expect(json['data']['post']).to include_json({"title" => record.title})
     end
-  end
-
-  it 'fails' do
-    result = execute_graphql(
-      mutation,
-      variables: { input: { email: 'whatever', password: 'whatever' } },
-      )
-
-    expect(result['data']['login']['success']).to eq false
   end
 end

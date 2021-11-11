@@ -21,7 +21,7 @@ module Types
     end
 
     field :user, UserType, null: false do
-      argument :id, ID, required: false, as: :id
+      argument :id, ID, required: true, as: :id
     end
 
     field :tags, [Types::TagType], null: true do
@@ -32,17 +32,19 @@ module Types
     end
 
     def post(id:)
-      post = Pundit.policy_scope!(context[:current_user], Post).friendly.find(id)
+      post = ::Post.friendly.find(id)
+      #post = Pundit.policy_scope!(context[:current_user], Post).friendly.find(id)
       Pundit.authorize context[:current_user], post, :show?
     end
 
-    def user(id: nil)
-      user = id.present? ?
-               Pundit.policy_scope!(context[:current_user], User).find(id) : context[:current_user]
+    def user(id:)
+      #user = id.present? ?
+      #         Pundit.policy_scope!(context[:current_user], User).find(id) : context[:current_user]
+      user = ::User.find(id)
       Pundit.authorize context[:current_user], user, :show?
     end
 
-    def posts(page: nil, query: nil, sort: 'asc', tag: nil)
+    def posts(page: 1, query: nil, sort: 'asc', tag: nil)
       if query.present?
         ::Post.search(query).page(page).order(updated_at: sort)
       elsif tag.present?

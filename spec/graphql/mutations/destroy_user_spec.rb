@@ -26,7 +26,6 @@ RSpec.describe Mutations::DestroyUser, type: :request do
   it 'destroys the requested user' do
     expect do
       post graphql_url, params: { query: mutation, variables: { id: record.id } }, headers: valid_headers
-      p json
     end.to change(User, :count).by(-1)
   end
 end
