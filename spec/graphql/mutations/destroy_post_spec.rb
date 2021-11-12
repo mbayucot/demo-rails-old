@@ -28,4 +28,9 @@ RSpec.describe Mutations::DestroyPost, type: :request do
       post graphql_url, params: { query: mutation, variables: { id: record.id } }, headers: valid_headers
     end.to change(Post, :count).by(-1)
   end
+
+  it 'returns a Post' do
+    post graphql_url, params: { query: mutation, variables: { id: record.id } }, headers: valid_headers
+    expect(json['data']['destroyPost']['post']).to include_json(title: record.title)
+  end
 end

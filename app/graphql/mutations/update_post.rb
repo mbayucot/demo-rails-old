@@ -1,13 +1,5 @@
 module Mutations
   class UpdatePost < BaseMutation
-    def ready?(**_args)
-      if !context[:current_user]
-        raise GraphQL::ExecutionError, "You need to login!"
-      else
-        true
-      end
-    end
-
     field :post, Types::PostType, null: false
     field :errors, [Types::UserErrorType], null: true
 

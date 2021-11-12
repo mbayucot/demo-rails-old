@@ -43,6 +43,7 @@ RSpec.describe Mutations::UpdateUser, type: :request do
   context 'with invalid parameters' do
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: { id: user.id, attributes: invalid_attributes } }, headers: valid_headers
+      p json
       expect(json['data']['updateUser']['errors']).to include_json([{"path"=>["attributes", "email"], "message"=>"Email can't be blank"}])
     end
   end

@@ -24,11 +24,14 @@ SimpleCov.start "rails" do
   minimum_coverage_by_file 50
 
   add_filter "app/controllers/graphql_controller.rb"
+  add_filter "app/controllers/users"
   add_filter "app/policies/application_policy.rb"
   add_filter "app/mailers/application_mailer.rb"
   add_filter "app/channels/application_cable/channel.rb"
   add_filter "app/channels/application_cable/connection.rb"
   add_filter "app/jobs/application_job.rb"
+  add_filter "app/interactors/base_interactor.rb"
+  add_filter "app/interactors/base_organizer.rb"
   add_filter "app/graphql/rails_docker_starter_kit_schema.rb"
   add_filter "app/graphql/types/base_argument.rb"
   add_filter "app/graphql/types/base_edge.rb"
