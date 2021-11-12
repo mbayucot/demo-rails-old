@@ -2,7 +2,7 @@ class Post < ApplicationRecord
   include AASM
   include PgSearch::Model
 
-  acts_as_votable
+  extend FriendlyId
 
   belongs_to :user, class_name: 'User'
 
@@ -11,11 +11,9 @@ class Post < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
 
-  scope :ordered, -> { order(updated_at: :desc) }
-
+  acts_as_votable
   acts_as_taggable_on :tags
 
-  extend FriendlyId
   friendly_id :title, use: :slugged
 
   aasm do

@@ -1,20 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'associations' do
+  describe 'enumbs' do
     it do
-      expect(subject).to have_many(:articles).with_foreign_key('author_id')
-                                             .dependent(:destroy)
-    end
-    it do
-      expect(subject).to have_many(:comments).with_foreign_key('author_id')
-                                             .dependent(:destroy)
+      expect(subject).to define_enum_for(:role).with_values(
+        author: 1, editor: 2, admin: 3
+      )
     end
   end
 
-  describe 'validations' do
-    it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to validate_presence_of(:first_name) }
-    it { is_expected.to validate_presence_of(:last_name) }
+  describe 'associations' do
+    it { expect(subject).to have_many(:posts).dependent(:destroy) }
+    it { expect(subject).to have_many(:comments).dependent(:destroy) }
+    it { expect(subject).to have_many(:subscriptions).dependent(:destroy) }
   end
 end
