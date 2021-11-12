@@ -18,7 +18,20 @@ require 'support/graphql_helpers'
 require 'rspec/json_expectations'
 require 'pundit/matchers'
 require 'simplecov'
-SimpleCov.start 'rails'
+
+SimpleCov.start "rails" do
+  minimum_coverage 90
+  minimum_coverage_by_file 50
+
+  add_filter "app/controllers/graphql_controller.rb"
+  add_filter "app/policies/application_policy.rb"
+  add_filter "app/mailers/application_mailer.rb"
+  add_filter "app/channels/application_cable/channel.rb"
+  add_filter "app/channels/application_cable/connection.rb"
+  add_filter "app/jobs/application_job.rb"
+  add_filter "app/graphql/rails_docker_starter_kit_schema.rb"
+  add_filter "app/graphql/types/"
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

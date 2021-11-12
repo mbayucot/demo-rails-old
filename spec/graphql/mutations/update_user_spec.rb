@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
-RSpec.describe Mutations::UpdateComment, type: :request do
+RSpec.describe Mutations::UpdateUser, type: :request do
   let(:user) { create(:user) }
   let(:valid_attributes) { { email: Faker::Internet.email } }
   let(:invalid_attributes) { { email: nil } }

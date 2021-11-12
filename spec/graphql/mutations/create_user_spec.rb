@@ -15,7 +15,7 @@ RSpec.describe Mutations::CreateUser, type: :request do
 
   let(:mutation) do
     <<~GQL
-      mutation($email: String!, $firstName: String!, $lastName: String!, $password: String!) {
+      mutation($email: String, $firstName: String, $lastName: String, $password: String) {
         createUser(email: $email, firstName: $firstName, lastName: $lastName, password: $password) {
           user {
             id

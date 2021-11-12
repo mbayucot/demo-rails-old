@@ -21,7 +21,7 @@ class PostPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      user && user.author? ? scope.where(user_id: user.id) : scope.all
+      user.author? ? scope.where(user_id: user.id) : scope.all
     end
   end
 end

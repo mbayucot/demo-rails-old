@@ -12,7 +12,7 @@ RSpec.describe Mutations::CreatePost, type: :request do
 
   let(:mutation) do
     <<~GQL
-      mutation($title: String!, $body: String!, $tagList: [String!]!) {
+      mutation($title: String, $body: String, $tagList: [String!]) {
         createPost(title: $title, body: $body, tagList: $tagList) {
           post {
             id
@@ -49,7 +49,7 @@ RSpec.describe Mutations::CreatePost, type: :request do
 
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: invalid_attributes }, headers: valid_headers
-      expect(json).to include_json('errors': [{message: "Variable $title of type String! was provided invalid value"}])
+      expect(json['data']['createPost']['errors']).to include_json([{"path"=>["attributes", "title"], "message"=>"Title can't be blank"}])
     end
   end
 end
