@@ -11,9 +11,10 @@ module Types
     field :first_name, String, null: true
     field :last_name, String, null: true
     field :role, Integer, null: true
-    field :provider, String, null: true
-    field :uid, String, null: true
-    field :email, String, null: true
     field :name, String, null: true
+
+    def name
+      "#{object.first_name} #{object.last_name}"
+    end
   end
 end

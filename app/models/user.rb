@@ -21,8 +21,4 @@ class User < ApplicationRecord
   def set_stripe_customer_id
     #CreateStripeCustomerJob.perform_later(self.id)
   end
-
-  def name
-    "#{first_name} #{last_name}"
-  end
 end
