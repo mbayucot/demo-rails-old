@@ -30,7 +30,16 @@ SimpleCov.start "rails" do
   add_filter "app/channels/application_cable/connection.rb"
   add_filter "app/jobs/application_job.rb"
   add_filter "app/graphql/rails_docker_starter_kit_schema.rb"
-  add_filter "app/graphql/types/"
+  add_filter "app/graphql/types/base_argument.rb"
+  add_filter "app/graphql/types/base_edge.rb"
+  add_filter "app/graphql/types/base_enum.rb"
+  add_filter "app/graphql/types/base_field.rb"
+  add_filter "app/graphql/types/base_input_object.rb"
+  add_filter "app/graphql/types/base_interface.rb"
+  add_filter "app/graphql/types/base_object.rb"
+  add_filter "app/graphql/types/base_scalar.rb"
+  add_filter "app/graphql/types/base_union.rb"
+  add_filter "app/graphql/types/node_type.rb"
 end
 
 RSpec.configure do |config|

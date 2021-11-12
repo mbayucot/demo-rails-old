@@ -1,32 +1,22 @@
 module Mutations
   class CreateUser < BaseMutation
-    def ready?(**_args)
-      if !context[:current_user]
-        raise GraphQL::ExecutionError, "You need to login!"
-      else
-        true
-      end
-    end
-
-    field :user, Types::UserType, null: false
+    field :user, Types::UserType, null: true
     field :errors, [Types::UserErrorType], null: true
 
-    argument :email, String, required: true
-    argument :first_name, String, required: true
-    argument :last_name, String, required: true
-    argument :password, String, required: true
+    argument :email, String, required: false
+    argument :first_name, String, required: false
+    argument :last_name, String, required: false
+    argument :password, String, required: false
 
-    def resolve(email:, first_name:, last_name:, password:)
+    def resolve(email: nil, first_name: nil, last_name: nil, password: nil)
       user = User.new(email: email, first_name: first_name, last_name: last_name, password: password)
       Pundit.authorize context[:current_user], user, :create?
       if user.save
         {
           user: user,
-          errors: [],
         }
       else
         {
-          user: user,
           errors: pretty_errors(user.errors)
         }
       end

@@ -7,7 +7,7 @@ RSpec.describe Mutations::CreateUser, type: :request do
                              password: 'pass1234',
                              firstName: Faker::Name.first_name,
                              lastName: Faker::Name.last_name } }
-  let(:invalid_attributes) { { email: Faker::Name.first_name, password: nil } }
+  let(:invalid_attributes) { { email: nil } }
 
   let(:valid_headers) do
     Devise::JWT::TestHelpers.auth_headers({ Accept: 'application/json' }, user)
@@ -20,6 +20,10 @@ RSpec.describe Mutations::CreateUser, type: :request do
           user {
             id
             email
+          }
+          errors {
+            path
+            message
           }
         }
       }
@@ -48,7 +52,7 @@ RSpec.describe Mutations::CreateUser, type: :request do
 
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: invalid_attributes }, headers: valid_headers
-      expect(json).to include_json('errors': [{message: "Variable $firstName of type String! was provided invalid value"}])
+      expect(json['data']['createUser']['errors']).to include_json([{"path"=>["attributes", "email"], "message"=>"Email can't be blank"}])
     end
   end
 end
