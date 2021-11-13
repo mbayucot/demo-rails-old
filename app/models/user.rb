@@ -19,6 +19,6 @@ class User < ApplicationRecord
          #:omniauthable, :confirmable, :lockable, :timeoutable, :trackable,
 
   def set_stripe_customer_id
-    #CreateStripeCustomerJob.perform_later(self.id)
+   #CreateStripeCustomerJob.perform_later(self.id) if self.author?
   end
 end

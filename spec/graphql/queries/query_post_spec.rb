@@ -40,7 +40,8 @@ RSpec.describe Mutations::CreatePost, type: :request do
 
   context 'with valid parameters' do
     it 'returns a project' do
-      post graphql_url, params: { query: mutation, variables: { id: record.id} }, headers: valid_headers
+      post graphql_url, params: { query: mutation, variables: { id: 0} }, headers: valid_headers
+      p json
       expect(json['data']['post']).to include_json({"title" => record.title})
     end
   end

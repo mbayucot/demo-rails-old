@@ -28,4 +28,12 @@ class RailsDockerStarterKitSchema < GraphQL::Schema
     # find an object in your application
     # ...
   end
+
+  rescue_from(ActiveRecord::RecordNotFound) do |err|
+    raise GraphQL::ExecutionError, err
+  end
+
+  rescue_from ActiveRecord::RecordInvalid do |err|
+    raise GraphQL::ExecutionError.new("Something went wrong", extensions: err.record.errors.as_json(full_messages: true))
+  end
 end

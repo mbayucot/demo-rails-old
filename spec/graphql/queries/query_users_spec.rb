@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
-RSpec.describe Mutations::CreatePost, type: :request do
+RSpec.describe "QueryUser", type: :request do
   let!(:users) { create_list(:user, 10) }
   let(:record) { users.first }
 
@@ -37,6 +37,7 @@ RSpec.describe Mutations::CreatePost, type: :request do
 
     it 'returns a pagination metadata' do
       post graphql_url, params: { query: mutation }, headers: valid_headers
+      p json
       expect(json['data']['users']['metadata']).to include_json({"totalPages"=>1, "totalCount"=>10, "currentPage"=>1, "limitValue"=>25})
     end
   end

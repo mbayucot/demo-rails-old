@@ -1,12 +1,10 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
-RSpec.describe Mutations::CreateComment, type: :request do
+RSpec.describe Mutations::CreatePost, type: :request do
   let(:user) { create(:user) }
-  let(:record) { create(:post) }
-
-  let(:valid_attributes) { { postId: record.id, body: Faker::Lorem.sentence } }
-  let(:invalid_attributes) { { postId: record.id, body: nil } }
+  let(:valid_attributes) { { title: Faker::Lorem.word, body: Faker::Lorem.word, tagList: [Faker::Lorem.word] } }
+  let(:invalid_attributes) { { title: nil } }
 
   let(:valid_headers) do
     Devise::JWT::TestHelpers.auth_headers({ Accept: 'application/json' }, user)
@@ -14,17 +12,11 @@ RSpec.describe Mutations::CreateComment, type: :request do
 
   let(:mutation) do
     <<~GQL
-      mutation($postId: ID, $body: String, $parentId: ID) {
-        createComment(postId: $postId, body: $body, parentId: $parentId) {
-          comment {
+      mutation($title: String, $body: String, $tagList: [String!]) {
+        createPost(title: $title, body: $body, tagList: $tagList) {
+          post {
             id
-            body
-            ancestry
-            children {
-              id
-              body
-              ancestry
-            }
+            title
           }
           errors {
             path
@@ -36,28 +28,28 @@ RSpec.describe Mutations::CreateComment, type: :request do
   end
 
   context 'with valid parameters' do
-    it 'creates a new Comment' do
+    it 'creates a new Post' do
       expect do
         post graphql_url, params: { query: mutation, variables: valid_attributes }, headers: valid_headers
-      end.to change(Comment, :count).by(1)
+      end.to change(Post, :count).by(1)
     end
 
-    it 'returns a Comment' do
+    it 'returns a Post' do
       post graphql_url, params: { query: mutation, variables: valid_attributes }, headers: valid_headers
-      expect(json['data']['createComment']['comment']).to include_json(body: valid_attributes[:body])
+      expect(json['data']['createPost']['post']).to include_json(title: valid_attributes[:title])
     end
   end
 
   context 'with invalid parameters' do
-    it 'does not create a new Comment' do
+    it 'does not create a new Post' do
       expect do
         post graphql_url, params: { query: mutation, variables: invalid_attributes }, headers: valid_headers
-      end.to change(Comment, :count).by(0)
+      end.to change(Post, :count).by(0)
     end
 
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: invalid_attributes }, headers: valid_headers
-      expect(json['data']['createComment']['errors']).to include_json([{"path"=>["attributes", "body"], "message"=>"Body can't be blank"}])
+      expect(json['data']['createPost']['errors']).to include_json([{"path"=>["attributes", "title"], "message"=>"Title can't be blank"}])
     end
   end
 end

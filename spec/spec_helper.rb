@@ -33,6 +33,7 @@ SimpleCov.start "rails" do
   add_filter "app/interactors/base_interactor.rb"
   add_filter "app/interactors/base_organizer.rb"
   add_filter "app/graphql/rails_docker_starter_kit_schema.rb"
+  add_filter "app/graphql/mutations/base_mutation.rb"
   add_filter "app/graphql/types/base_argument.rb"
   add_filter "app/graphql/types/base_edge.rb"
   add_filter "app/graphql/types/base_enum.rb"

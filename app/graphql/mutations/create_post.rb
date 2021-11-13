@@ -18,15 +18,10 @@ module Mutations
     def resolve(title: nil, body: nil, tagList: nil)
       post = context[:current_user].posts.new(title: title, body: body, tag_list: tagList)
       Pundit.authorize context[:current_user], post, :create?
-      if post.save
-        {
-          post: post,
-        }
-      else
-        {
-          errors: pretty_errors(post.errors)
-        }
-      end
+      post.save!
+      {
+        post: post,
+      }
     end
   end
 end

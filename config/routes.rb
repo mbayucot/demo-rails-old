@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
 
+  mount StripeEvent::Engine, at: '/stripe/webhooks'
+
   devise_for :users,
              path: '',
              path_names: {

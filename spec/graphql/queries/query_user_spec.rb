@@ -27,10 +27,4 @@ RSpec.describe Mutations::CreatePost, type: :request do
       expect(json['data']['user']).to include_json({"email" => record.email})
     end
   end
-
-  context 'with invalid parameters' do
-    it 'returns 404' do
-      post graphql_url, params: { query: mutation, variables: { id: 0} }, headers: valid_headers
-    end
-  end
 end

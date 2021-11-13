@@ -4,7 +4,7 @@ RSpec.describe 'Users::Sessions', type: :request do
   let(:password) { Faker::Internet.password }
   let!(:user) { create(:user, password: password) }
   let!(:admin) { create(:user, password: password, role: :admin) }
-  let!(:staff) { create(:user, password: password, role: :staff) }
+  let!(:editor) { create(:user, password: password, role: :editor) }
 
   let(:invalid_attributes) do
     { email: Faker::Internet.email, password: password, domain: "client" }
@@ -41,8 +41,8 @@ RSpec.describe 'Users::Sessions', type: :request do
       end
     end
 
-    context 'with valid parameters and staff role' do
-      let(:valid_attributes) { { email: staff.email, password: password, domain: "admin" } }
+    context 'with valid parameters and editor role' do
+      let(:valid_attributes) { { email: editor.email, password: password, domain: "admin" } }
       before do
         post user_session_url, params: { user: valid_attributes }, as: :json
       end
@@ -66,7 +66,7 @@ RSpec.describe 'Users::Sessions', type: :request do
       end
 
       it 'returns an error message' do
-        expect(json['error']).to match(/Invalid Email, Domain or password./)
+        expect(json['error']).to match(/Invalid Email or password./)
       end
     end
   end

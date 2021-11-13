@@ -1,10 +1,10 @@
 module Mutations
   class CreateComment < BaseMutation
-    field :comment, Types::CommentType, null: false
+    field :comment, Types::CommentType, null: true
     field :errors, [Types::UserErrorType], null: true
 
-    argument :post_id, ID, required: true
-    argument :body, String, required: true
+    argument :post_id, ID, required: false
+    argument :body, String, required: false
     argument :parent_id, ID, required: false
 
     def resolve(post_id:, body:, parent_id: nil)
@@ -14,12 +14,10 @@ module Mutations
       comment.user = context[:current_user]
       if comment.save
         {
-          comment: comment,
-          errors: [],
+          comment: comment
         }
       else
         {
-          comment: comment,
           errors: pretty_errors(comment.errors)
         }
       end

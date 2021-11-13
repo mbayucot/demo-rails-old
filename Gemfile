@@ -115,7 +115,6 @@ group :test do
   gem 'simplecov', require: false
   gem 'fuubar'
   gem 'stripe-ruby-mock', '~> 3.0.1', :require => 'stripe_mock'
-  gem 'graphql-schema_comparator'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
