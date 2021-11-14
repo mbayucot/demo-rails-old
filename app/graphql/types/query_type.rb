@@ -54,7 +54,7 @@ module Types
       end
     end
 
-    def users(page: nil, query: nil)
+    def users(page: 1, query: nil)
       user = Pundit.policy_scope!(context[:current_user], ::User)
       user.where("first_name ILIKE ?", "%#{query}%").page(page)
     end

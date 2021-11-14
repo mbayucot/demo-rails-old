@@ -3,7 +3,7 @@ module Mutations
     field :post, Types::PostType, null: false
 
     argument :id, ID, required: true
-    argument :weight, Int, required: true
+    argument :weight, ID, required: true
 
     def resolve(id:, weight:)
       post = Post.find(id)

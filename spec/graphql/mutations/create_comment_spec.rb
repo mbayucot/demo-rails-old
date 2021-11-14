@@ -57,7 +57,7 @@ RSpec.describe Mutations::CreateComment, type: :request do
 
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: invalid_attributes }, headers: valid_headers
-      expect(json['data']['createComment']['errors']).to include_json([{"path"=>["attributes", "body"], "message"=>"Body can't be blank"}])
+      expect(json['errors'].first['extensions']).to include_json("body"=>["Body can't be blank"])
     end
   end
 end

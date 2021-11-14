@@ -12,15 +12,10 @@ module Mutations
       #comment = post.comments.new(body: body, parent_id: parent_id)
       comment = post.comments.new(body: body)
       comment.user = context[:current_user]
-      if comment.save
-        {
-          comment: comment
-        }
-      else
-        {
-          errors: pretty_errors(comment.errors)
-        }
-      end
+      comment.save!
+      {
+        comment: comment
+      }
     end
   end
 end

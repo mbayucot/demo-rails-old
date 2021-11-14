@@ -9,14 +9,8 @@ module Mutations
     def resolve(id:, attributes:)
       post = Post.find(id)
       Pundit.authorize context[:current_user], post, :update?
-      if post.update(attributes.to_h)
-        { post: post }
-      else
-        {
-          post: post,
-          errors: pretty_errors(post.errors)
-        }
-      end
+      post.update!(attributes.to_h)
+      { post: post }
     end
   end
 end

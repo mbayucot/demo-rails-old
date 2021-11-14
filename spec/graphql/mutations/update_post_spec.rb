@@ -19,10 +19,6 @@ RSpec.describe Mutations::UpdatePost, type: :request do
             id
             title
           }
-          errors {
-            path
-            message
-          }
         }
       }
     GQL
@@ -44,7 +40,7 @@ RSpec.describe Mutations::UpdatePost, type: :request do
   context 'with invalid parameters' do
     it 'returns an error message', :aggregate_failures do
       post graphql_url, params: { query: mutation, variables: { id: record.id, attributes: invalid_attributes } }, headers: valid_headers
-      expect(json['data']['updatePost']['errors']).to include_json([{"path"=>["attributes", "title"], "message"=>"Title can't be blank"}])
+      expect(json['errors'].first['extensions']).to include_json("title"=>["Title can't be blank"])
     end
   end
 end

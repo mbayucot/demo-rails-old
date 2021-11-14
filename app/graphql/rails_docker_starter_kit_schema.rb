@@ -30,10 +30,10 @@ class RailsDockerStarterKitSchema < GraphQL::Schema
   end
 
   rescue_from(ActiveRecord::RecordNotFound) do |err|
-    raise GraphQL::ExecutionError, err
+    raise GraphQL::ExecutionError.new("Not Found", extensions: err)
   end
 
   rescue_from ActiveRecord::RecordInvalid do |err|
-    raise GraphQL::ExecutionError.new("Something went wrong", extensions: err.record.errors.as_json(full_messages: true))
+    raise GraphQL::ExecutionError.new("Unprocessable Entity", extensions: err.record.errors.as_json(full_messages: true))
   end
 end
