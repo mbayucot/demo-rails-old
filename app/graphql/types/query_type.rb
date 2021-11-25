@@ -50,7 +50,8 @@ module Types
       elsif tag.present?
         ::Post.tagged_with(tag)
       else
-        Pundit.policy_scope!(context[:current_user], ::Post).page(page).order(updated_at: sort)
+        #Pundit.policy_scope!(context[:current_user], ::Post).page(page).order(updated_at: sort)
+        ::Post.page(page).order(updated_at: sort)
       end
     end
 

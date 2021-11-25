@@ -1,0 +1,112 @@
+stages:
+  - build
+  - test
+  - deploy
+
+services:
+  - redis:5.0
+  - postgres:12
+
+variables:
+  POSTGRES_DB: myapp_test
+  POSTGRES_USER: mydbusername
+  POSTGRES_PASSWORD: mydbpassword
+  DOCKER_REGISTRY: xxx.dkr.ecr.ap-southeast-2.amazonaws.com
+  AWS_DEFAULT_REGION: us-east-2
+  APP_NAME: demo-app/web
+  DOCKER_HOST: tcp://docker:2375
+  CLUSTER: demo-app
+  PROJECT_NAME: app-web
+
+.base:
+  image: ruby:2.7.3-slim
+  variables:
+    RAILS_ENV: test
+    DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+    DATABASE_URL: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB"
+  cache:
+    key: gems_and_packages
+    paths:
+      - apt-cache/
+      - vendor/ruby
+    policy: pull
+  before_script:
+    - apt-get update -q && apt-get install -y --fix-missing build-essential curl gcc git libcurl4-openssl-dev libpq-dev libxml2-dev ssh libsqlite3-dev sqlite3
+    - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
+    - bundle exec rails db:migrate
+
+build:rubocop:
+  extends: .base
+  stage: build
+  cache:
+    policy: pull-push
+    script:
+      - bundle exec rubocop
+
+build:rails_best_practices:
+  extends: .base
+  stage: build
+  cache:
+    policy: pull-push
+  script:
+    - bundle exec rails_best_practices
+
+build:fasterer:
+  extends: .base
+  stage: build
+  cache:
+    policy: pull-push
+  script:
+    - bundle exec fasterer
+
+test:brakeman:
+  extends: .base
+  stage: test
+  allow_failure: true
+  artifacts:
+    name: brakeman_report
+    when: always
+    paths:
+      - brakeman/
+  script:
+    - bundle exec brakeman --format html -o brakeman/index.html
+
+test:dawnscanner:
+  extends: .base
+  stage: test
+  allow_failure: true
+  artifacts:
+    name: dawnscanner_report
+    when: always
+    paths:
+      - dawnscanner
+  script:
+    - mkdir dawnscanner
+    - bundle exec dawn --html -zF dawnscanner/index.html .
+
+test:rspec:
+  extends: .base
+  stage: test
+  artifacts:
+    name: coverage_report
+    paths:
+      - coverage/
+  script:
+    - bundle exec rspec
+
+deploy:production:
+  stage: deploy
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
+  before_script:
+    - amazon-linux-extras install docker
+    - aws --version
+    - docker --version
+  script:
+    - docker build -t $DOCKER_REGISTRY/$APP_NAME:latest .
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker push $DOCKER_REGISTRY/$APP_NAME:latest
+    - aws ecs update-service --cluster $CLUSTER --service $PROJECT_NAME --force-new-deployment
