@@ -26,5 +26,5 @@ COPY . $INSTALL_PATH
 EXPOSE 3000
 
 # Start the main process.
-COPY conf/supervisor/conf.d/ /etc/supervisor/conf.d
+COPY .devops/supervisor/conf.d/ /etc/supervisor/conf.d
 CMD /usr/bin/supervisord -n
