@@ -17,7 +17,7 @@ module Mutations
 
           Stripe::Customer.update(
             user.stripe_customer_id,
-            { source: token}
+            { source: token }
           )
 
           subscription = Stripe::Subscription.create(
@@ -26,18 +26,18 @@ module Mutations
               items: [item]
             }
           )
-          user.subscriptions.create!(stripe_subscription_id: subscription.id, start_at: subscription.current_period_start)
+          user.subscriptions.create!(stripe_subscription_id: subscription.id,
+                                     current_period_start: Time.at(subscription.current_period_start),
+                                     current_period_end: Time.at(subscription.current_period_end),
+                                     status: Subscription.statuses[:active])
         end
+
         {
           user: user,
           errors: [],
         }
       rescue StandardError => e
-        Rails.logger.debug e.message
-        {
-          user: user,
-          errors: [e.message],
-        }
+        raise GraphQL::ExecutionError.new("Stripe Error", extensions: e)
       end
     end
   end

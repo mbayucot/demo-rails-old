@@ -1,45 +1,67 @@
+# variables.tf | Auth and Application variables
 
-variable "name" {
-  description = "Name to be used on all the resources as identifier"
-  default     = ""
+variable "aws_access_key" {
+  type        = string
+  description = "AWS Access Key"
 }
 
-variable "cloudwatch_log_group_name" {
-  description = "Name of cloudwatch log group"
-  default     = ""
+variable "aws_secret_key" {
+  type        = string
+  description = "AWS Secret Key"
 }
 
-variable "image_url" {
-  description = "URL of ecr image url"
-  default     = ""
+variable "aws_key_pair_name" {
+  type        = string
+  description = "AWS Key Pair Name"
 }
 
-variable "lb_blue_arn" {
-  description = "ARN of application loadbalancer"
-  default     = ""
+# variable "aws_key_pair_file" {
+#   type = string
+#   description = "AWS Key Pair File"
+# }
+
+variable "aws_region" {
+  type        = string
+  description = "AWS Region"
 }
 
-variable "subnets" {
-  description = "Ids of the subnets"
-  default     = []
+variable "aws_cloudwatch_retention_in_days" {
+  type        = number
+  description = "AWS CloudWatch Logs Retention in Days"
+  default     = 1
 }
 
-variable "security_groups" {
-  description = "Ids of the security groups"
-  default     = []
+variable "app_name" {
+  type        = string
+  description = "Application Name"
 }
 
-variable "iam_arn" {
-  description = "ARN of ECS Task"
-  default     = ""
+variable "app_environment" {
+  type        = string
+  description = "Application Environment"
 }
 
-variable "web_container_name" {
-  description = "Name of the docker image"
-  default     = ""
+variable "cidr" {
+  description = "The CIDR block for the VPC."
+  default     = "10.0.0.0/16"
 }
 
-variable "env" {
-  description = "ENV rails"
-  default     = ""
+variable "public_subnets" {
+  description = "List of public subnets"
+}
+
+variable "private_subnets" {
+  description = "List of private subnets"
+}
+
+variable "availability_zones" {
+  description = "List of availability zones"
+}
+
+variable "database_name" {
+  description = "Database Name"
+}
+
+variable "database_password" {
+  description = "Database Password"
 }

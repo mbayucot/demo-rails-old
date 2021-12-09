@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2021_10_24_122402) do
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "stripe_subscription_id"
-    t.string "status"
+    t.integer "status"
     t.boolean "cancel_at_period_end", default: false, null: false
     t.datetime "current_period_start", null: false
     t.datetime "current_period_end", null: false

@@ -12,5 +12,15 @@ module Types
     field :tag_list, [String], null: true
     field :user, Types::UserType, null: true
     field :comments, [Types::CommentType], null: true
+    field :subscribed, String, null: true
+    field :content, String, null: true
+
+    def subscribed
+      context[:current_user].subscriptions.first.status == 'active'
+    end
+
+    def content
+      subscribed ? object.body : object.body.truncate(250, omission: '...')
+    end
   end
 end
