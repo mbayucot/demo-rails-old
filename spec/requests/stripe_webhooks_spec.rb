@@ -9,7 +9,7 @@ RSpec.describe '/stripe/webhooks', type: :request do
     OpenStruct.new(
       id: 'fakeid',
       customer_email: user.email,
-      status: 'trialing',
+      status: 'trial',
       cancel_at_period_end: true,
       current_period_start: DateTime.now.to_time.to_i,
       current_period_end: Faker::Date.forward(days: 30).to_time.to_i

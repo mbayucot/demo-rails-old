@@ -6,7 +6,7 @@ RSpec.describe StripeInteractors::UpdateSubscription, type: :interactor do
   let(:stripe_sub) do
     OpenStruct.new(
       id: subscription.stripe_subscription_id,
-      status: 'trialing',
+      status: 'trial',
       cancel_at_period_end: true,
       current_period_start: DateTime.now.to_time.to_i,
       current_period_end: Faker::Date.forward(days: 30).to_time.to_i

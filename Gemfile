@@ -114,7 +114,7 @@ group :test do
   gem 'rspec-graphql_matchers'
   gem 'simplecov', require: false
   gem 'fuubar'
-  gem 'stripe-ruby-mock', '~> 3.0.1', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc3', :require => 'stripe_mock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

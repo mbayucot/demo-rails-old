@@ -1,6 +1,6 @@
 module Mutations
   class CreateSubscription < BaseMutation
-    field :user, Types::UserType, null: false
+    field :subscription, Types::SubscriptionType, null: false
     field :errors, [Types::UserErrorType], null: true
 
     # TODO: define arguments
@@ -20,24 +20,24 @@ module Mutations
             { source: token }
           )
 
-          subscription = Stripe::Subscription.create(
+          stripe_subscription = Stripe::Subscription.create(
             {
               customer: user.stripe_customer_id,
               items: [item]
             }
           )
-          user.subscriptions.create!(stripe_subscription_id: subscription.id,
-                                     current_period_start: Time.at(subscription.current_period_start),
-                                     current_period_end: Time.at(subscription.current_period_end),
+          subscription = user.subscriptions.create!(stripe_subscription_id: stripe_subscription.id,
+                                     current_period_start: Time.at(stripe_subscription.current_period_start),
+                                     current_period_end: Time.at(stripe_subscription.current_period_end),
                                      status: Subscription.statuses[:active])
-        end
 
-        {
-          user: user,
-          errors: [],
-        }
+          {
+            subscription: subscription,
+            errors: [],
+          }
+        end
       rescue StandardError => e
-        raise GraphQL::ExecutionError.new("Stripe Error", extensions: e)
+        raise GraphQL::ExecutionError.new("Stripe Error", extensions: { error: e.message})
       end
     end
   end
