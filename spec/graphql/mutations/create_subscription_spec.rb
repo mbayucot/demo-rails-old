@@ -18,6 +18,11 @@ RSpec.describe Mutations::CreateSubscription, type: :request do
   end
   after(:all) { StripeMock.stop }
 
+  before do
+    allow(Flipper).to receive(:enabled?).and_call_original
+    allow(Flipper).to receive(:enabled?).with(:subscription).and_return(true)
+  end
+
   let(:mutation) do
     <<~GQL
       mutation($token: String!) {

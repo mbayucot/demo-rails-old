@@ -1,6 +1,5 @@
 module Types
   class MutationType < Types::BaseObject
-    field :create_subscription, mutation: Mutations::CreateSubscription
     field :react_post, mutation: Mutations::ReactPost
     field :destroy_user, mutation: Mutations::DestroyUser
     field :update_user, mutation: Mutations::UpdateUser
@@ -9,5 +8,8 @@ module Types
     field :destroy_post, mutation: Mutations::DestroyPost
     field :update_post, mutation: Mutations::UpdatePost
     field :create_post, mutation: Mutations::CreatePost
+    if Flipper.enabled? :subscription
+      field :create_subscription, mutation: Mutations::CreateSubscription
+    end
   end
 end
