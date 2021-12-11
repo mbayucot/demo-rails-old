@@ -16,7 +16,7 @@ module Types
     field :content, String, null: true
 
     def subscribed
-      if context[:current_user].subscriptions.present?
+      if context[:current_user] && context[:current_user].subscriptions.present?
         context[:current_user].subscriptions.first.status == 'active'
       else
         false
