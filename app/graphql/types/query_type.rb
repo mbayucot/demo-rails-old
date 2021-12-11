@@ -52,7 +52,7 @@ module Types
       if query.present?
         ::Post.search(query).page(page).order(updated_at: sort)
       elsif tag.present?
-        ::Post.tagged_with(tag)
+        ::Post.tagged_with(tag).page(page).order(updated_at: sort)
       else
         #Pundit.policy_scope!(context[:current_user], ::Post).page(page).order(updated_at: sort)
         ::Post.page(page).order(updated_at: sort)
@@ -66,11 +66,6 @@ module Types
 
     def tags(query: nil)
       ::ActsAsTaggableOn::Tag.where("name ILIKE ?", "%#{query}%")
-    end
-
-    def plans
-      Stripe::Product.list({ active: true }).data
-      Stripe::Plan.list({ active: true }).data
     end
   end
 end

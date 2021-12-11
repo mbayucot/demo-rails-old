@@ -10,7 +10,7 @@ RSpec.describe Mutations::CreatePost, type: :request do
 
   let(:mutation) do
     <<~GQL
-      query($id: ID!) {
+      query($id: ID) {
         user(id: $id) {
           id
           email
@@ -24,6 +24,13 @@ RSpec.describe Mutations::CreatePost, type: :request do
   context 'with valid parameters' do
     it 'returns a user' do
       post graphql_url, params: { query: mutation, variables: { id: record.id} }, headers: valid_headers
+      expect(json['data']['user']).to include_json({"email" => record.email})
+    end
+  end
+
+  context 'with no parameter' do
+    it 'returns a user' do
+      post graphql_url, params: { query: mutation, variables: {}}, headers: valid_headers
       expect(json['data']['user']).to include_json({"email" => record.email})
     end
   end

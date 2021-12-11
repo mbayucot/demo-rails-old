@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe Mutations::CreatePost, type: :request do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, :with_subscription) }
   let(:record) { create(:post) }
 
   let(:valid_headers) do
@@ -17,6 +17,8 @@ RSpec.describe Mutations::CreatePost, type: :request do
           title
           body
           slug
+          subscribed
+          content
           tags {
             id
             name

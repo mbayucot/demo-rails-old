@@ -10,5 +10,11 @@ FactoryBot.define do
     trait :with_confirmed do
       after(:create, &:skip_confirmation!)
     end
+
+    trait :with_subscription do
+      after(:create) do |user|
+        create(:subscription, user_id: user.id)
+      end
+    end
   end
 end
