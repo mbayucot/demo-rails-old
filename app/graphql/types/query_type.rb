@@ -42,6 +42,8 @@ module Types
       #         Pundit.policy_scope!(context[:current_user], User).find(id) : context[:current_user]
       if id.present?
         user = ::User.find(id)
+        Rails.logger.debug user.inspect
+        p user.inspect
         Pundit.authorize context[:current_user], user, :show?
       else
         context[:current_user]

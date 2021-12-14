@@ -19,7 +19,8 @@ class User < ApplicationRecord
          request_keys: [:domain]
 
   def self.find_for_database_authentication(warden_conditions)
-    roles = warden_conditions[:domain] == 'author' ? 'author' : %w[author editor admin]
+    # Refactor
+    roles = warden_conditions[:domain] == 'author' ? 'author' : %w[editor admin]
     where(email: warden_conditions[:email], role: roles).first
   end
 

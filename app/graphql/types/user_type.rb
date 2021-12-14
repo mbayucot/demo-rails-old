@@ -11,7 +11,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: true
     field :first_name, String, null: true
     field :last_name, String, null: true
-    field :role, Integer, null: true
+    field :role, String, null: true
     field :name, String, null: true
     field :stripe_customer_id, String, null: true
 
