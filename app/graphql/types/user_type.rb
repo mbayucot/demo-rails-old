@@ -13,6 +13,7 @@ module Types
     field :last_name, String, null: true
     field :role, Integer, null: true
     field :name, String, null: true
+    field :stripe_customer_id, String, null: true
 
     def name
       "#{object.first_name} #{object.last_name}"

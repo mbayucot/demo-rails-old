@@ -15,8 +15,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable,
-         jwt_revocation_strategy: JwtDenylist
-         #:omniauthable, :confirmable, :lockable, :timeoutable, :trackable,
+         jwt_revocation_strategy: JwtDenylist,
+         request_keys: [:domain]
+
+  def self.find_for_database_authentication(warden_conditions)
+    roles = warden_conditions[:domain] == 'author' ? 'author' : %w[author editor admin]
+    where(email: warden_conditions[:email], role: roles).first
+  end
 
   def set_stripe_customer_id
    CreateStripeCustomerJob.perform_later(self.id) if self.author?
