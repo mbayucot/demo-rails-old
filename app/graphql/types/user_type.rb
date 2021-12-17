@@ -2,7 +2,7 @@ module Types
   class UserType < Types::BaseObject
     field :id, ID, null: false
     field :email, String, null: false
-    field :password, String, null: false
+    field :password, String, null: true
     field :encrypted_password, String, null: true
     field :reset_password_token, String, null: true
     field :reset_password_sent_at, GraphQL::Types::ISO8601DateTime, null: true
